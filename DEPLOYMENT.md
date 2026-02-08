@@ -12,7 +12,7 @@
 2. **Create New Repository**
    - Click the "+" icon (top right)
    - Select "New repository"
-   - Name: `jee-prep-platform`
+   - Name: `Exam-prep-platform`
    - Make it Public
    - Click "Create repository"
 
@@ -30,7 +30,7 @@
 5. **Access Your Site**
    - Wait 2-3 minutes
    - Your site will be live at:
-   - `https://YOUR-USERNAME.github.io/jee-prep-platform/`
+   - `https://YOUR-USERNAME.github.io/Exam-prep-platform/`
 
 **Done! Share this URL with students and teachers.**
 
@@ -144,7 +144,7 @@
 **Share this message:**
 
 ```
-📚 JEE Prep Platform is now live!
+📚 Exam Prep Platform is now live!
 
 Access: https://YOUR-SITE-URL
 
@@ -167,7 +167,7 @@ Start learning today! 🚀
 **Share this message:**
 
 ```
-👨‍🏫 JEE Prep - Teacher Dashboard
+👨‍🏫 Exam Prep - Teacher Dashboard
 
 Access: https://YOUR-SITE-URL
 
@@ -189,7 +189,7 @@ Login now to see your students' performance!
 
 ## Custom Domain Setup (Optional)
 
-### Using Your Own Domain (e.g., jeeprep.com)
+### Using Your Own Domain (e.g., Examprep.com)
 
 #### For GitHub Pages:
 
