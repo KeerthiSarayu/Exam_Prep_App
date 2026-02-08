@@ -1,8 +1,8 @@
-# JEE Prep Platform - Adaptive Learning System
+# Exam Prep Platform - Adaptive Learning System
 
 ## 🎓 Project Overview
 
-An intelligent web-based learning platform designed for students preparing for IIT-JEE exams. The platform features an **adaptive learning system** that identifies weak concepts and creates personalized follow-up tests to ensure mastery.
+An intelligent web-based learning platform designed for students preparing for IIT-Exam exams. The platform features an **adaptive learning system** that identifies weak concepts and creates personalized follow-up tests to ensure mastery.
 
 ### Key Features
 
@@ -477,4 +477,4 @@ After 1 month of usage, evaluate:
 
 ---
 
-**Built with ❤️ for JEE aspirants | Ready to deploy in under 5 minutes!**
+**Built with ❤️ for Exam aspirants | Ready to deploy in under 5 minutes!**
