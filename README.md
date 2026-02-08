@@ -1,4 +1,5 @@
 # Exam Prep Platform - Adaptive Learning System
+### Access platform at: https://keerthisarayu.github.io/Exam_Prep_App/
 
 ## 🎓 Project Overview
 
