@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEE Prep Platform - Adaptive Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #efa285 0%, #fef8bf 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #fef8bf 0%, #efa285 100%);
+            color: rgb(66, 44, 44);
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: rgba(72, 38, 38, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        /* Login Page */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .login-container h2 {
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #efa285 0%, #fef8bf 100%);
+            color: rgb(66, 44, 44);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .subject-card {
+            background: linear-gradient(135deg, #efa285 0%, #fef8bf 100%);
+            color: rgb(66, 44, 44);
+            padding: 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .subject-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .subject-card p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        /* Topics List */
+        .topics-list {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .topic-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .topic-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .topic-item h4 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .topic-item .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .topic-item .progress-fill {
+            background: linear-gradient(135deg, #efa285 0%, #fef8bf 100%);
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        /* Quiz Interface */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 15px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .quiz-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn-secondary {
+            padding: 12px 30px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            padding: 12px 30px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        /* Results Page */
+        .results-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #efa285 0%, #fef8bf 100%);
+            color: rgb(71, 46, 46);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 30px auto;
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .score-label {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .concepts-to-review {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .concepts-to-review h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .concept-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .concept-list li {
+            padding: 10px;
+            background: white;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #ffc107;
+        }
+
+        /* Teacher Dashboard */
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+
+        .student-table th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .student-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .student-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-good {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-attention {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .info-text {
+            color: #6c757d;
+            font-size: 14px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <h2>🎓 JEE Prep Platform</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" required placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" required placeholder="Enter password">
+            </div>
+            <div class="form-group">
+                <label>User Type</label>
+                <select id="userType" required>
+                    <option value="">Select user type</option>
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary">Login</button>
+        </form>
+        <div class="info-text">
+            <p><strong>Demo Credentials:</strong></p>
+            <p>Student: student1 / pass123 (and student2-10)</p>
+            <p>Teacher: teacher1 / teach123</p>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="appContainer" class="container hidden">
+        <div class="header">
+            <h1 id="headerTitle">JEE Prep Platform</h1>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        <div class="content" id="mainContent"></div>
+    </div>
+
+    <script>
+        // Application State
+        const appState = {
+            currentUser: null,
+            currentView: 'login',
+            currentSubject: null,
+            currentTopic: null,
+            currentQuiz: null,
+            quizAnswers: [],
+            studentProgress: {}
+        };
+
+        // Sample Data
+        const users = {
+            students: [
+                { username: 'student1', password: 'pass123', name: 'Rahul Sharma', grade: '11th' },
+                { username: 'student2', password: 'pass123', name: 'Priya Patel', grade: '11th' },
+                { username: 'student3', password: 'pass123', name: 'Amit Kumar', grade: '12th' },
+                { username: 'student4', password: 'pass123', name: 'Sneha Reddy', grade: '11th' },
+                { username: 'student5', password: 'pass123', name: 'Rohan Gupta', grade: '12th' },
+                { username: 'student6', password: 'pass123', name: 'Anjali Singh', grade: '10th' },
+                { username: 'student7', password: 'pass123', name: 'Vikram Joshi', grade: '11th' },
+                { username: 'student8', password: 'pass123', name: 'Meera Iyer', grade: '12th' },
+                { username: 'student9', password: 'pass123', name: 'Karan Malhotra', grade: '11th' },
+                { username: 'student10', password: 'pass123', name: 'Divya Nair', grade: '10th' }
+            ],
+            teachers: [
+                { username: 'teacher1', password: 'teach123', name: 'Dr. Anita Verma' }
+            ]
+        };
+
+        const subjects = {
+            physics: {
+                name: 'Physics',
+                topics: [
+                    {
+                        id: 'kinematics',
+                        name: 'Kinematics',
+                        concepts: ['Displacement & Velocity', 'Acceleration', 'Equations of Motion', 'Relative Motion']
+                    },
+                    {
+                        id: 'newtons-laws',
+                        name: "Newton's Laws of Motion",
+                        concepts: ['First Law - Inertia', 'Second Law - F=ma', 'Third Law - Action-Reaction', 'Free Body Diagrams']
+                    },
+                    {
+                        id: 'work-energy',
+                        name: 'Work, Energy & Power',
+                        concepts: ['Work Done by Force', 'Kinetic Energy', 'Potential Energy', 'Conservation of Energy', 'Power']
+                    }
+                ]
+            },
+            chemistry: {
+                name: 'Chemistry',
+                topics: [
+                    {
+                        id: 'atomic-structure',
+                        name: 'Atomic Structure',
+                        concepts: ['Rutherford Model', 'Bohr Model', 'Quantum Numbers', 'Electronic Configuration']
+                    }
+                ]
+            },
+            mathematics: {
+                name: 'Mathematics',
+                topics: [
+                    {
+                        id: 'trigonometry',
+                        name: 'Trigonometry',
+                        concepts: ['Basic Ratios', 'Trigonometric Identities', 'Compound Angles', 'Heights and Distances']
+                    }
+                ]
+            }
+        };
+
+        const quizQuestions = {
+            'kinematics': [
+                {
+                    id: 'k1',
+                    question: 'A car accelerates from rest to 20 m/s in 4 seconds. What is the acceleration?',
+                    options: ['2 m/s²', '5 m/s²', '10 m/s²', '80 m/s²'],
+                    correct: 1,
+                    concept: 'Acceleration'
+                },
+                {
+                    id: 'k2',
+                    question: 'An object is thrown upward with initial velocity 30 m/s. What is the maximum height reached? (g = 10 m/s²)',
+                    options: ['30 m', '45 m', '60 m', '90 m'],
+                    correct: 1,
+                    concept: 'Equations of Motion'
+                },
+                {
+                    id: 'k3',
+                    question: 'Which of the following is a vector quantity?',
+                    options: ['Speed', 'Distance', 'Displacement', 'Time'],
+                    correct: 2,
+                    concept: 'Displacement & Velocity'
+                },
+                {
+                    id: 'k4',
+                    question: 'A train moving at 72 km/h starts decelerating at 2 m/s². How long does it take to stop?',
+                    options: ['5 s', '10 s', '20 s', '36 s'],
+                    correct: 1,
+                    concept: 'Acceleration'
+                },
+                {
+                    id: 'k5',
+                    question: 'Two cars approach each other at 60 km/h and 40 km/h respectively. What is their relative velocity?',
+                    options: ['20 km/h', '50 km/h', '100 km/h', '200 km/h'],
+                    correct: 2,
+                    concept: 'Relative Motion'
+                }
+            ],
+            'newtons-laws': [
+                {
+                    id: 'n1',
+                    question: 'A 5 kg object experiences a net force of 20 N. What is its acceleration?',
+                    options: ['2 m/s²', '4 m/s²', '5 m/s²', '25 m/s²'],
+                    correct: 1,
+                    concept: 'Second Law - F=ma'
+                },
+                {
+                    id: 'n2',
+                    question: 'Which law explains why we need to wear seatbelts in cars?',
+                    options: ['Newton\'s First Law', 'Newton\'s Second Law', 'Newton\'s Third Law', 'Law of Gravitation'],
+                    correct: 0,
+                    concept: 'First Law - Inertia'
+                },
+                {
+                    id: 'n3',
+                    question: 'When you jump off a boat, the boat moves backward. This demonstrates:',
+                    options: ['First Law', 'Second Law', 'Third Law', 'Conservation of Energy'],
+                    correct: 2,
+                    concept: 'Third Law - Action-Reaction'
+                },
+                {
+                    id: 'n4',
+                    question: 'A block rests on a table. What forces should be included in its free body diagram?',
+                    options: ['Only weight', 'Only normal force', 'Weight and normal force', 'Weight, normal force, and friction'],
+                    correct: 2,
+                    concept: 'Free Body Diagrams'
+                },
+                {
+                    id: 'n5',
+                    question: 'If the net force on an object is zero, the object:',
+                    options: ['Must be at rest', 'Must be moving', 'Is in equilibrium', 'Has no mass'],
+                    correct: 2,
+                    concept: 'First Law - Inertia'
+                }
+            ],
+            'work-energy': [
+                {
+                    id: 'w1',
+                    question: 'A 2 kg object moving at 10 m/s has kinetic energy of:',
+                    options: ['20 J', '50 J', '100 J', '200 J'],
+                    correct: 2,
+                    concept: 'Kinetic Energy'
+                },
+                {
+                    id: 'w2',
+                    question: 'Work done is maximum when the angle between force and displacement is:',
+                    options: ['0°', '45°', '90°', '180°'],
+                    correct: 0,
+                    concept: 'Work Done by Force'
+                },
+                {
+                    id: 'w3',
+                    question: 'A 5 kg object is lifted to a height of 10 m. The potential energy gained is: (g = 10 m/s²)',
+                    options: ['50 J', '100 J', '250 J', '500 J'],
+                    correct: 3,
+                    concept: 'Potential Energy'
+                },
+                {
+                    id: 'w4',
+                    question: 'Which of the following represents the unit of power?',
+                    options: ['Joule', 'Watt', 'Newton', 'Meter/second'],
+                    correct: 1,
+                    concept: 'Power'
+                },
+                {
+                    id: 'w5',
+                    question: 'According to the work-energy theorem, work done on an object equals:',
+                    options: ['Change in potential energy', 'Change in kinetic energy', 'Total energy', 'Force times distance'],
+                    correct: 1,
+                    concept: 'Conservation of Energy'
+                }
+            ]
+        };
+
+        // Initialize student progress in localStorage
+        function initializeProgress() {
+            if (!localStorage.getItem('studentProgress')) {
+                const initialProgress = {};
+                users.students.forEach(student => {
+                    initialProgress[student.username] = {
+                        name: student.name,
+                        grade: student.grade,
+                        subjects: {},
+                        weakConcepts: {},
+                        attentionRequired: []
+                    };
+                });
+                localStorage.setItem('studentProgress', JSON.stringify(initialProgress));
+            }
+        }
+
+        // Login Handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const userType = document.getElementById('userType').value;
+
+            let user = null;
+
+            if (userType === 'student') {
+                user = users.students.find(s => s.username === username && s.password === password);
+                if (user) {
+                    user.type = 'student';
+                }
+            } else if (userType === 'teacher') {
+                user = users.teachers.find(t => t.username === username && t.password === password);
+                if (user) {
+                    user.type = 'teacher';
+                }
+            }
+
+            if (user) {
+                appState.currentUser = user;
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('appContainer').classList.remove('hidden');
+                
+                if (user.type === 'student') {
+                    showStudentDashboard();
+                } else {
+                    showTeacherDashboard();
+                }
+            } else {
+                alert('Invalid credentials! Please try again.');
+            }
+        });
+
+        // Logout Function
+        function logout() {
+            appState.currentUser = null;
+            appState.currentView = 'login';
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('appContainer').classList.add('hidden');
+            document.getElementById('loginForm').reset();
+        }
+
+        // Show Student Dashboard
+        function showStudentDashboard() {
+            document.getElementById('headerTitle').textContent = `Welcome, ${appState.currentUser.name}`;
+            
+            const content = `
+                <h2>Select a Subject</h2>
+                <div class="dashboard-grid">
+                    <div class="subject-card" onclick="showTopics('physics')">
+                        <h3>⚛️ Physics</h3>
+                        <p>Mechanics, Thermodynamics, Electromagnetism</p>
+                    </div>
+                    <div class="subject-card" onclick="showTopics('chemistry')">
+                        <h3>🧪 Chemistry</h3>
+                        <p>Physical, Organic, Inorganic Chemistry</p>
+                    </div>
+                    <div class="subject-card" onclick="showTopics('mathematics')">
+                        <h3>📐 Mathematics</h3>
+                        <p>Algebra, Calculus, Trigonometry</p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('mainContent').innerHTML = content;
+        }
+
+        // Show Topics
+        function showTopics(subjectKey) {
+            appState.currentSubject = subjectKey;
+            const subject = subjects[subjectKey];
+            
+            let topicsHTML = '';
+            subject.topics.forEach(topic => {
+                const progress = getTopicProgress(appState.currentUser.username, subjectKey, topic.id);
+                topicsHTML += `
+                    <div class="topic-item" onclick="startQuiz('${topic.id}')">
+                        <h4>${topic.name}</h4>
+                        <p style="color: #6c757d; font-size: 14px;">Concepts: ${topic.concepts.join(', ')}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            const content = `
+                <span class="back-btn" onclick="showStudentDashboard()">← Back to Subjects</span>
+                <h2>${subject.name} - Topics</h2>
+                <div class="topics-list">
+                    ${topicsHTML}
+                </div>
+            `;
+            
+            document.getElementById('mainContent').innerHTML = content;
+        }
+
+        // Get Topic Progress
+        function getTopicProgress(username, subject, topicId) {
+            const progress = JSON.parse(localStorage.getItem('studentProgress') || '{}');
+            if (progress[username] && progress[username].subjects[subject] && progress[username].subjects[subject][topicId]) {
+                const attempts = progress[username].subjects[subject][topicId].attempts || 0;
+                return Math.min(attempts * 20, 100);
+            }
+            return 0;
+        }
+
+        // Start Quiz
+        function startQuiz(topicId) {
+            const questions = quizQuestions[topicId] || [];
+            if (questions.length === 0) {
+                alert('Questions for this topic are being prepared!');
+                return;
+            }
+
+            // Check if there are follow-up questions
+            const progress = JSON.parse(localStorage.getItem('studentProgress') || '{}');
+            const username = appState.currentUser.username;
+            const wrongQuestions = progress[username]?.subjects?.[appState.currentSubject]?.[topicId]?.wrongQuestions || [];
+
+            let selectedQuestions = [];
+            
+            if (wrongQuestions.length > 0) {
+                // This is a follow-up test
+                const followUpQuestions = questions.filter(q => wrongQuestions.includes(q.id));
+                const newQuestions = questions.filter(q => !wrongQuestions.includes(q.id));
+                
+                // Mix: 50% wrong questions, 50% new questions
+                const numFollowUp = Math.ceil(followUpQuestions.length);
+                const numNew = Math.min(newQuestions.length, followUpQuestions.length);
+                
+                selectedQuestions = [
+                    ...followUpQuestions.slice(0, numFollowUp),
+                    ...newQuestions.slice(0, numNew)
+                ];
+            } else {
+                // First attempt - take all questions
+                selectedQuestions = [...questions];
+            }
+
+            appState.currentQuiz = {
+                topicId: topicId,
+                questions: selectedQuestions,
+                currentQuestion: 0,
+                answers: [],
+                isFollowUp: wrongQuestions.length > 0,
+                previousWrongQuestions: wrongQuestions
+            };
+
+            showQuestion();
+        }
+
+        // Show Question
+        function showQuestion() {
+            const quiz = appState.currentQuiz;
+            const question = quiz.questions[quiz.currentQuestion];
+            
+            let optionsHTML = '';
+            question.options.forEach((option, index) => {
+                const selected = quiz.answers[quiz.currentQuestion] === index ? 'selected' : '';
+                optionsHTML += `
+                    <div class="option ${selected}" onclick="selectOption(${index})">
+                        ${String.fromCharCode(65 + index)}. ${option}
+                    </div>
+                `;
+            });
+
+            const content = `
+                <div class="quiz-container">
+                    <span class="back-btn" onclick="showTopics('${appState.currentSubject}')">← Back to Topics</span>
+                    ${quiz.isFollowUp ? '<div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px;"><strong>📝 Follow-up Test:</strong> This quiz includes questions you answered incorrectly before, along with new questions.</div>' : ''}
+                    <div class="question-card">
+                        <div class="question-number">Question ${quiz.currentQuestion + 1} of ${quiz.questions.length}</div>
+                        <div class="question-text">${question.question}</div>
+                        <div class="options">
+                            ${optionsHTML}
+                        </div>
+                    </div>
+                    <div class="quiz-actions">
+                        <button class="btn-secondary" onclick="previousQuestion()" ${quiz.currentQuestion === 0 ? 'disabled' : ''}>Previous</button>
+                        ${quiz.currentQuestion === quiz.questions.length - 1 
+                            ? '<button class="btn-success" onclick="submitQuiz()">Submit Quiz</button>'
+                            : '<button class="btn-primary" onclick="nextQuestion()">Next Question</button>'
+                        }
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('mainContent').innerHTML = content;
+        }
+
+        // Select Option
+        function selectOption(index) {
+            appState.currentQuiz.answers[appState.currentQuiz.currentQuestion] = index;
+            showQuestion();
+        }
+
+        // Next Question
+        function nextQuestion() {
+            if (appState.currentQuiz.currentQuestion < appState.currentQuiz.questions.length - 1) {
+                appState.currentQuiz.currentQuestion++;
+                showQuestion();
+            }
+        }
+
+        // Previous Question
+        function previousQuestion() {
+            if (appState.currentQuiz.currentQuestion > 0) {
+                appState.currentQuiz.currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        // Submit Quiz
+        function submitQuiz() {
+            const quiz = appState.currentQuiz;
+            let correct = 0;
+            let wrongQuestions = [];
+            let weakConcepts = {};
+
+            quiz.questions.forEach((question, index) => {
+                if (quiz.answers[index] === question.correct) {
+                    correct++;
+                } else {
+                    wrongQuestions.push(question.id);
+                    weakConcepts[question.concept] = (weakConcepts[question.concept] || 0) + 1;
+                }
+            });
+
+            const score = Math.round((correct / quiz.questions.length) * 100);
+            
+            // Update progress
+            updateProgress(score, wrongQuestions, weakConcepts);
+            
+            // Show results
+            showResults(score, correct, quiz.questions.length, weakConcepts, wrongQuestions);
+        }
+
+        // Update Progress
+        function updateProgress(score, wrongQuestions, weakConcepts) {
+            const progress = JSON.parse(localStorage.getItem('studentProgress') || '{}');
+            const username = appState.currentUser.username;
+            const subject = appState.currentSubject;
+            const topicId = appState.currentQuiz.topicId;
+
+            if (!progress[username].subjects[subject]) {
+                progress[username].subjects[subject] = {};
+            }
+
+            if (!progress[username].subjects[subject][topicId]) {
+                progress[username].subjects[subject][topicId] = {
+                    attempts: 0,
+                    scores: [],
+                    wrongQuestions: [],
+                    weakConcepts: {}
+                };
+            }
+
+            const topicProgress = progress[username].subjects[subject][topicId];
+            topicProgress.attempts++;
+            topicProgress.scores.push(score);
+
+            // Track concepts that need attention
+            Object.keys(weakConcepts).forEach(concept => {
+                if (!topicProgress.weakConcepts[concept]) {
+                    topicProgress.weakConcepts[concept] = { failures: 0, lastAttempt: Date.now() };
+                }
+                topicProgress.weakConcepts[concept].failures += weakConcepts[concept];
+                topicProgress.weakConcepts[concept].lastAttempt = Date.now();
+            });
+
+            // Update wrong questions list
+            if (appState.currentQuiz.isFollowUp) {
+                // Check which previously wrong questions are still wrong
+                const stillWrong = wrongQuestions.filter(q => appState.currentQuiz.previousWrongQuestions.includes(q));
+                
+                // These need attention - failed twice
+                stillWrong.forEach(qId => {
+                    const concept = appState.currentQuiz.questions.find(q => q.id === qId)?.concept;
+                    if (concept && !progress[username].attentionRequired.includes(concept)) {
+                        progress[username].attentionRequired.push(concept);
+                    }
+                });
+
+                topicProgress.wrongQuestions = wrongQuestions;
+            } else {
+                topicProgress.wrongQuestions = wrongQuestions;
+            }
+
+            localStorage.setItem('studentProgress', JSON.stringify(progress));
+        }
+
+        // Show Results
+        function showResults(score, correct, total, weakConcepts, wrongQuestions) {
+            let conceptsHTML = '';
+            
+            if (Object.keys(weakConcepts).length > 0) {
+                const conceptsList = Object.entries(weakConcepts)
+                    .map(([concept, count]) => `<li>📚 ${concept} (${count} question${count > 1 ? 's' : ''} incorrect)</li>`)
+                    .join('');
+                
+                conceptsHTML = `
+                    <div class="concepts-to-review">
+                        <h3>⚠️ Concepts to Review</h3>
+                        <p>You didn't perform well in these areas. Please review them before taking the follow-up test:</p>
+                        <ul class="concept-list">
+                            ${conceptsList}
+                        </ul>
+                        <p style="margin-top: 15px; font-style: italic;">💡 Tip: Focus on understanding the fundamentals of these concepts. Practice more problems and revisit your notes.</p>
+                    </div>
+                `;
+            } else {
+                conceptsHTML = `
+                    <div style="background: #d4edda; border-left: 4px solid #28a745; padding: 20px; border-radius: 8px; margin: 30px 0;">
+                        <h3 style="color: #155724; margin-bottom: 10px;">🎉 Excellent Work!</h3>
+                        <p style="color: #155724;">You've mastered all concepts in this topic. Keep up the great work!</p>
+                    </div>
+                `;
+            }
+
+            const needsAttention = appState.currentQuiz.isFollowUp && wrongQuestions.length > 0;
+            
+            const content = `
+                <div class="results-container">
+                    <h2>Quiz Results</h2>
+                    <div class="score-circle">
+                        ${score}%
+                        <div class="score-label">${correct}/${total} Correct</div>
+                    </div>
+                    ${conceptsHTML}
+                    ${needsAttention ? `
+                        <div style="background: #f8d7da; border-left: 4px solid #dc3545; padding: 20px; border-radius: 8px; margin: 30px 0;">
+                            <h3 style="color: #721c24;">⚠️ Attention Required!</h3>
+                            <p style="color: #721c24;">You've answered some questions incorrectly multiple times. Consider seeking help from your teacher or spending more time on these concepts.</p>
+                        </div>
+                    ` : ''}
+                    <div style="margin-top: 30px;">
+                        ${wrongQuestions.length > 0 
+                            ? `<button class="btn-primary" onclick="startQuiz('${appState.currentQuiz.topicId}')">Take Follow-up Test</button>`
+                            : '<button class="btn-success" onclick="showTopics(\'' + appState.currentSubject + '\')">Continue Learning</button>'
+                        }
+                        <button class="btn-secondary" onclick="showStudentDashboard()" style="margin-left: 10px;">Back to Dashboard</button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('mainContent').innerHTML = content;
+        }
+
+        // Show Teacher Dashboard
+        function showTeacherDashboard() {
+            document.getElementById('headerTitle').textContent = `Teacher Dashboard - ${appState.currentUser.name}`;
+            
+            const progress = JSON.parse(localStorage.getItem('studentProgress') || '{}');
+            
+            let studentsHTML = '';
+            users.students.forEach(student => {
+                const studentData = progress[student.username] || {};
+                const attentionConcepts = studentData.attentionRequired || [];
+                const totalAttempts = Object.values(studentData.subjects || {})
+                    .reduce((sum, subject) => {
+                        return sum + Object.values(subject).reduce((s, topic) => s + (topic.attempts || 0), 0);
+                    }, 0);
+                
+                let status = 'status-good';
+                let statusText = 'Good';
+                
+                if (attentionConcepts.length > 2) {
+                    status = 'status-attention';
+                    statusText = 'Needs Attention';
+                } else if (attentionConcepts.length > 0) {
+                    status = 'status-warning';
+                    statusText = 'Needs Review';
+                }
+
+                studentsHTML += `
+                    <tr>
+                        <td>${student.name}</td>
+                        <td>${student.grade}</td>
+                        <td>${totalAttempts}</td>
+                        <td>${attentionConcepts.length}</td>
+                        <td><span class="status-badge ${status}">${statusText}</span></td>
+                        <td><button class="btn-secondary" onclick="viewStudentDetails('${student.username}')" style="padding: 8px 15px; font-size: 12px;">View Details</button></td>
+                    </tr>
+                `;
+            });
+            
+            const content = `
+                <h2>Student Progress Overview</h2>
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Grade</th>
+                            <th>Total Attempts</th>
+                            <th>Concepts Needing Attention</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${studentsHTML}
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('mainContent').innerHTML = content;
+        }
+
+        // View Student Details
+        function viewStudentDetails(username) {
+            const progress = JSON.parse(localStorage.getItem('studentProgress') || '{}');
+            const studentData = progress[username];
+            const student = users.students.find(s => s.username === username);
+            
+            let detailsHTML = '';
+            
+            Object.entries(studentData.subjects || {}).forEach(([subject, topics]) => {
+                detailsHTML += `<h3 style="margin-top: 30px; color: #667eea;">${subjects[subject].name}</h3>`;
+                
+                Object.entries(topics).forEach(([topicId, data]) => {
+                    const topicName = subjects[subject].topics.find(t => t.id === topicId)?.name || topicId;
+                    const avgScore = data.scores.length > 0 
+                        ? Math.round(data.scores.reduce((a, b) => a + b, 0) / data.scores.length)
+                        : 0;
+                    
+                    let weakConceptsHTML = '';
+                    if (Object.keys(data.weakConcepts || {}).length > 0) {
+                        weakConceptsHTML = '<ul style="margin-top: 10px;">';
+                        Object.entries(data.weakConcepts).forEach(([concept, info]) => {
+                            weakConceptsHTML += `<li style="color: #dc3545;">⚠️ ${concept} - ${info.failures} failures</li>`;
+                        });
+                        weakConceptsHTML += '</ul>';
+                    }
+                    
+                    detailsHTML += `
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                            <h4>${topicName}</h4>
+                            <p><strong>Attempts:</strong> ${data.attempts} | <strong>Average Score:</strong> ${avgScore}%</p>
+                            <p><strong>Latest Score:</strong> ${data.scores[data.scores.length - 1] || 0}%</p>
+                            ${weakConceptsHTML}
+                        </div>
+                    `;
+                });
+            });
+
+            if (studentData.attentionRequired && studentData.attentionRequired.length > 0) {
+                detailsHTML += `
+                    <div style="background: #f8d7da; padding: 20px; border-radius: 8px; margin-top: 30px; border-left: 4px solid #dc3545;">
+                        <h3 style="color: #721c24;">⚠️ Requires Immediate Attention</h3>
+                        <ul>
+                            ${studentData.attentionRequired.map(concept => `<li style="color: #721c24; font-weight: 600;">${concept}</li>`).join('')}
+                        </ul>
+                        <p style="color: #721c24; margin-top: 10px; font-style: italic;">These concepts have been answered incorrectly multiple times.</p>
+                    </div>
+                `;
+            }
+            
+            const content = `
+                <span class="back-btn" onclick="showTeacherDashboard()">← Back to Students</span>
+                <h2>${student.name} - Detailed Progress</h2>
+                <p style="color: #6c757d; margin-bottom: 20px;">Grade: ${student.grade}</p>
+                ${detailsHTML || '<p style="color: #6c757d; margin-top: 30px;">No quiz attempts yet.</p>'}
+            `;
+            
+            document.getElementById('mainContent').innerHTML = content;
+        }
+
+        // Initialize app
+        initializeProgress();
+    </script>
+</body>
+</html>
